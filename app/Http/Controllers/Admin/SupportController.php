@@ -3,14 +3,36 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Support;
 use Illuminate\Http\Request;
 
 class SupportController extends Controller
 {
     public function index(Support $support) {
+        // $supports = Support::all(); ou $supports = $support->all();
         $supports = $support->all();
-        // $supports = Support::all();
+        return view('admin/supports/index', compact('supports'));
+    }
 
-        return view('admin.supports.index', compact('supports'));
+    public function show(string|int $id) {
+        if(!$support = Support::find($id)) {
+            return back();
+        }
+
+        return view('admin/supports/show', compact('support'));
+    }
+
+    public function create() {
+        return view('admin/supports/create');
+    }
+
+    public function store(Request $request, Support $support) {
+        $data = $request->all();
+        $data['status'] = 'a';
+
+        // Support::create($data); ou $support->create($data);
+        $support->create($data);
+
+        return redirect()->route('supports.index');
     }
 }
