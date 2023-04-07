@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DTO\CretaeSupportDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SupportRequest;
 use App\Models\Support;
@@ -9,10 +10,7 @@ use App\Services\SupportService;
 
 class SupportController extends Controller
 {
-    public function __construct(protected SupportService $service)
-    {
-        
-    }
+    public function __construct(protected SupportService $service) {}
 
     public function index(Request $request) {
         // $supports = Support::all(); ou $supports = $support->all();
@@ -34,12 +32,16 @@ class SupportController extends Controller
         return view('admin/supports/create');
     }
 
-    public function store(SupportRequest $request, Support $support) {
-        $data = $request->validated();
-        $data['status'] = 'a';
+    public function store(SupportRequest $request) {
+        // $data = $request->validated();
+        // $data['status'] = 'a';
 
         // Support::create($data); ou $support->create($data);
-        $support->create($data);
+        // $support->create($data);
+
+        $this->service->new(
+            CretaeSupportDTO::makeFromRequest($request)
+        );
 
         return redirect()->route('supports.index');
     }
@@ -53,9 +55,16 @@ class SupportController extends Controller
     }
 
     public function update(SupportRequest $request, Support $support, string $id) {
-        if(!$support = $support->find($id)) {
+        $this->service->update(
+            UpdateSupportDTO::makeFromRequest($request)
+        );
+        if(!$support) {
             return back();
         }
+
+        // if(!$support = $support->find($id)) {
+        //     return back();
+        // }
 
         // $support->subject = $request->subject;
         // $support->body = $request->body;
@@ -63,7 +72,7 @@ class SupportController extends Controller
         // ou
         // $support->update($request->only(['subject', 'body']));
 
-        $support->update($request->validated());
+        // $support->update($request->validated());
         return redirect()-> route('support.index');
     }
 
