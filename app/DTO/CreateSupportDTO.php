@@ -4,7 +4,7 @@ namespace App\DTO;
 
 use App\Http\Requests\SupportRequest;
 
-class CretaeSupportDTO
+class CreateSupportDTO
 {
   public function __construct(
     public string $subject,

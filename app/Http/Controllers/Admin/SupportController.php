@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\DTO\CretaeSupportDTO;
+use App\DTO\CreateSupportDTO;
+use App\DTO\UpdateSupportDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SupportRequest;
 use App\Models\Support;
@@ -40,7 +41,7 @@ class SupportController extends Controller
         // $support->create($data);
 
         $this->service->new(
-            CretaeSupportDTO::makeFromRequest($request)
+            CreateSupportDTO::makeFromRequest($request)
         );
 
         return redirect()->route('supports.index');

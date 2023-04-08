@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\DTO\CretaeSupportDTO;
+use App\DTO\CreateSupportDTO;
 use App\DTO\UpdateSupportDTO;
 use stdClass;
 
@@ -22,7 +22,7 @@ class SupportService
     return $this->repository->findOne($id);
   }
 
-  public function new(CretaeSupportDTO $dto): stdClass
+  public function new(CreateSupportDTO $dto): stdClass
   {
     return $this->repository->new($dto);
   }
